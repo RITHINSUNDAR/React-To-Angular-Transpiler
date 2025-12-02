@@ -3,7 +3,7 @@
 This project is a simple Python-based **React → Angular transpiler** designed as a proof-of-concept for converting React functional components into Angular component files.
 
 The goal of this project is to demonstrate how JSX, and event handlers can be transformed into Angular TypeScript and HTML templates using a lightweight **regex-driven approach**.
-## 🧠 Approach (High-Level)
+## Approach (Regex)
 
 1. **Read the JSX file as a raw string**  
    This makes regex pattern matching easier.
