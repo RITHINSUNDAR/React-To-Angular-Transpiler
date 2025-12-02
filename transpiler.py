@@ -35,7 +35,7 @@ def extract_html(c):
     return html_portion.group(1)
    
 
-def convert_ang_ts(jsx_ts_part):
+def convert_to_ts(jsx_ts_part):
     modf = jsx_ts_part
     # Convert React functional component → Angular class
     modf = re.sub(
@@ -76,7 +76,7 @@ def convert_ang_ts(jsx_ts_part):
 
     return modf
 
-def convert_ang_html(jsx_code):
+def convert_to_html(jsx_code):
     modf=jsx_code
     modf = re.sub(r'onClick=\{(\w+)\}', r'(click)="\1()"', modf)
     modf = re.sub(r'onChange=\{[^}]*\}',"",modf)
@@ -93,7 +93,7 @@ def convert_ang_html(jsx_code):
     modf = modf.replace(">)", ">").replace(") <", "<")
     return modf
 
-def get_ts(react_code):
+def generate_ts(react_code):
     Jsx_code=react_code
     compdecor_code = """@Component({selector:'app-todo-list',
         templateUrl:'./TodoList.component.html',
@@ -104,7 +104,7 @@ def get_ts(react_code):
     component_name=extract_comp_name(Jsx_code)
     tspart=extract_ts_part(component_name, Jsx_code)
 
-    substituted_code=convert_ang_ts(tspart)
+    substituted_code=convert_to_ts(tspart)
 
     with open("angular_reference/TodoList.component.ts", 'w') as ang_ts:
         ang_ts.write(state_import_code)
@@ -113,16 +113,16 @@ def get_ts(react_code):
         ang_ts.write('\n')
         ang_ts.write(substituted_code)
 
-def get_html(react_code):
+def generate_html(react_code):
     modf=react_code
     jsx_code=extract_html(modf)
-    converted_html=convert_ang_html(jsx_code)
+    converted_html=convert_to_html(jsx_code)
     with open("angular_reference/TodoList.component.html", 'w') as ang_html:
         ang_html.write(converted_html)        
 
 
-get_ts(react_code)
-get_html(react_code)
+generate_ts(react_code)
+generate_html(react_code)
 print("files generated successfully.")   
 
 
